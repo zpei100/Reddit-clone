@@ -1,0 +1,14 @@
+#main {
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+  grid-template-areas: 
+  "allPosts addPost"
+};
+
+#allPosts {
+  grid-area: allPosts
+};
+
+.addPost {
+  grid-area: addPost
+}
