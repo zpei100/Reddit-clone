@@ -12,9 +12,9 @@ var usersSchema = new Schema({
 });
 
 var postsSchema = new Schema({
-  postId: Number,
+  postId: String,
   message: String,
-  parent: Number,
+  parent: String,
   user: String,
   title: String
 });
