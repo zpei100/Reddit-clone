@@ -56,7 +56,7 @@ class App extends React.Component {
   };
 
   goToMain() {
-    this.setState({parentId: 'main'})
+    this.setState({parentId: 'main', replyTo: 'main', height: 0})
   };
 
   updateMaster(username) {
@@ -68,7 +68,7 @@ class App extends React.Component {
       <div className="container-fluid row">
         <div className="col-sm-7">
           {this.state.parentId === 'main' 
-          ? <Posts parentId={this.state.parentId} updateParentId={this.updateParentId.bind(this)} updateMaster={this.updateMaster.bind(this)} />
+          ? <Posts parentId={this.state.parentId} comment={this.comment.bind(this)} updateParentId={this.updateParentId.bind(this)} updateMaster={this.updateMaster.bind(this)} />
           : <div>
           <button className="btn btn-danger w-100 mt-3" onClick={this.goToMain.bind(this)}>Main Page</button>
           <Comments setHeight={this.setHeight.bind(this)} parentId={this.state.parentId} comment={this.comment.bind(this)} username={this.state.username} />

@@ -2,7 +2,7 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import { GET_POSTS } from '../queries/queries.js';
 
-const Posts = function({parentId, updateParentId, updateMaster}) {
+const Posts = function({parentId, updateParentId, updateMaster, comment}) {
   return (
     <Query query={GET_POSTS} variables={{parentId}} pollInterval={500}>
       {({ loading, error, data }) => {
@@ -17,10 +17,13 @@ const Posts = function({parentId, updateParentId, updateMaster}) {
                 key={post.postId}
               >
                 <div className="text-secondary mt-3"><a href="#" onClick={() => {
-                  updateMaster(post.user.username)}}>{post.user.username}</a></div>
+                  updateMaster(post.user.username);
+                }}>{post.user.username}</a></div>
                 <hr></hr>
                 <h3 className="font-weight-bold mt-0"><a href="#" onClick={() => {
-                  updateParentId(post.postId)}}>{post.title}</a></h3>
+                  updateParentId(post.postId);
+                  comment(post.postId);
+                }}>{post.title}</a></h3>
               </div>
             ))}
           </ul>
