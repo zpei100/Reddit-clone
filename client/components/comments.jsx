@@ -3,7 +3,7 @@ import { Query } from 'react-apollo';
 import { GET_POST } from '../queries/queries.js';
 import $ from 'jquery';
 
-const Comments = function({ parentId, comment, username, setHeight }) {
+const Comments = function({ parentId, comment, username, setHeight, updateMaster }) {
   return (
     <Query query={GET_POST} variables={{ postId: parentId }} pollInterval={500}>
       {({ loading, error, data }) => {
@@ -14,7 +14,11 @@ const Comments = function({ parentId, comment, username, setHeight }) {
           <div style={{width: '100%'}}>
             <div className="container border border-dark my-3 w-100">
               <div className="text-secondary mt-3 d-flex justify-content-between">
-                <div>{data.post.user.username}</div>
+                <div><a href="#" onClick={() => {
+                  console.log(updateMaster);
+                  console.log('type of updatemaster:', typeof updateMaster)
+                  updateMaster(data.post.user.username);
+                }}>{data.post.user.username}</a></div>
                 {username === '' ? (
                   ''
                 ) : (
@@ -36,7 +40,7 @@ const Comments = function({ parentId, comment, username, setHeight }) {
               <h3 className="font-wight-bold mt-0">{data.post.title}</h3>
               <ul style={{ width: '100%' }}>
                 {data.post.comments.map(post => (
-                  <Comments parentId={post.postId} username={username} comment={comment} setHeight={setHeight}/>
+                  <Comments updateMaster={updateMaster} parentId={post.postId} username={username} comment={comment} setHeight={setHeight}/>
                 ))}
               </ul>
             </div>

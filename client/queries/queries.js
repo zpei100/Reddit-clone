@@ -50,6 +50,24 @@ export const ADD_USER = gql`
     }
   }
 `
+export const USER_POSTS = gql`
+  query UserPosts($username: String!) {
+    user(username: $username) {
+      posts {
+        postId,
+        title,
+        message,
+        parent {
+          postId
+        }
+        user {
+          username
+        }
+      }
+    }
+  }
+`
+
 export const ADD_POST = gql`
   mutation AddPost($title: String!, $message: String!, $user: String!, $parent: String!) {
     addPost(title: $title, message: $message, user: $user, parent: $parent) {

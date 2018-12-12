@@ -2,7 +2,7 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import { GET_POSTS } from '../queries/queries.js';
 
-const Posts = function({parentId, updateParentId, updateMaster, comment}) {
+export default function({parentId, updateParentId, updateMaster, comment}) {
   return (
     <Query query={GET_POSTS} variables={{parentId}} pollInterval={500}>
       {({ loading, error, data }) => {
@@ -34,4 +34,3 @@ const Posts = function({parentId, updateParentId, updateMaster, comment}) {
   )
 }
 
-export default Posts;
