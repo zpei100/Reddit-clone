@@ -7,7 +7,7 @@ export default function({updateUsername}) {
   return (
     <Mutation mutation={ADD_USER}>
       {addUser => (
-        <div className="col-sm-5 mt-3">
+        <div className="mt-3">
           <form
             className="form-group"
             onSubmit={e => {

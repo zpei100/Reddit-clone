@@ -1,4 +1,5 @@
 const { Users, Posts } = require('../database/index');
+const uuid = require('uuid/v4')
 
 const {
   GraphQLObjectType,
@@ -20,31 +21,24 @@ const user = new GraphQLObjectType({
       }  
     }
   })
-});
+})
 
 const post = new GraphQLObjectType({
   name: 'posts',
   fields: () => ({
-    postId: { type: GraphQLID },
-    user: { type: GraphQLString },
-    userObject: {
+    postId: { type: GraphQLString },
+    user: {
       type: user,
-      args: {
-        username: { type: GraphQLString }
-      },
-      resolve: function(parent, {username}) {
-        return Users.findOne({username})
+      resolve: function(parent) {
+        return Users.findOne({username: parent.user})
       }
     },
     message: { type: GraphQLString },
     title: { type: GraphQLString },
     parent: { 
       type: post,
-      args: {
-        id: { type: GraphQLInt }
-      },
-      resolve: function(parent, {id}) {
-        return Posts.findOne({id})
+      resolve: function(parent) {
+        return Posts.findOne({postId: parent.parent})
       }
     },
     comments: {
@@ -74,11 +68,10 @@ const Mutation = new GraphQLObjectType({
         title: { type: GraphQLString },
         message: { type: GraphQLString },
         user: { type: GraphQLString },
-        postId: { type: GraphQLID },
-        parent: { type: GraphQLInt }
+        parent: { type: GraphQLString }
       },
-      resolve: function(P, {title, message, user, postId, parent}) {
-        new Posts({title, message, user, postId, parent}).save()
+      resolve: function(P, {title, message, user,  parent}) {
+        new Posts({title, message, user, postId: uuid(), parent}).save()
       }
     }
   }
@@ -97,10 +90,12 @@ const RootQuery = new GraphQLObjectType({
     posts: {
       type: new GraphQLList(post),
       args: {
-        username: { type: GraphQLString }
+        username: { type: GraphQLString },
+        parentId: { type: GraphQLString }
       },
       resolve: function(parent, args) {
-        if (args) return Posts.find({username: args.username})
+        if (args.username) return Posts.find({username: args.username});
+        if (args.parentId) return Posts.find({parent: args.parentId});
         return Posts.find({});
       }
     },
@@ -111,6 +106,15 @@ const RootQuery = new GraphQLObjectType({
       },
       resolve: function(parent, {username}) {
         return Users.findOne({username})
+      }
+    },
+    post: {
+      type: post,
+      args: { 
+        postId: { type: GraphQLString }
+      },
+      resolve: function(parent, {postId}) {
+        return Posts.findOne({postId})
       }
     }
   }

@@ -1,9 +1,11 @@
 import gql from 'graphql-tag';
 
 export const GET_POSTS = gql`
-  {
-    posts {
-      user
+  query AllPosts($username: String, $parentId: String){
+    posts(username: $username, parentId: $parentId) {
+      user {
+        username
+      }
       message
       title
       parent {
@@ -14,6 +16,33 @@ export const GET_POSTS = gql`
   }
 `;
 
+export const GET_POST = gql`
+  query GetPost($postId: String) {
+    post(postId: $postId) {
+      user {
+        username
+      }
+      message
+      title
+      parent {
+        postId
+      }
+      postId
+      comments {
+        postId
+        user {
+          username
+        }
+        message
+        title
+        parent {
+          postId
+        }
+      }
+    }
+  }
+`
+
 export const ADD_USER = gql`
   mutation AddUser($username: String!) {
     addUser(username: $username) {
@@ -22,12 +51,16 @@ export const ADD_USER = gql`
   }
 `
 export const ADD_POST = gql`
-  mutation AddPost($user: String!, $title: String!, $message: String!, $parent: Integer) {
-    addPost(user: $user, title: $title, message: $message, parent: $parent) {
-      user,
-      title,
-      message,
-      parent
+  mutation AddPost($title: String!, $message: String!, $user: String!, $parent: String!) {
+    addPost(title: $title, message: $message, user: $user, parent: $parent) {
+      title
+      message
+      user {
+        username
+      }
+      parent {
+        postId
+      }
     }
   }
 `
