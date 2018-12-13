@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server/index.js",
-    "webpack": "webpack -d -w"
+    "start": "npm run wepback && nodemon server/index.js",
+    "webpack": "webpack -p -w"
   },
   "keywords": [],
   "author": "",
