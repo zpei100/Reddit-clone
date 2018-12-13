@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run webpack && node server/index.js",
-    "webpack": "webpack -p"
+    "webpack": "webpack -p",
+    "webpack-dev": "webpack -p -w",
+    "server": "nodemon server/index.js"
   },
   "keywords": [],
   "author": "",

@@ -43,7 +43,7 @@ class App extends React.Component {
 
 
   exitEdit() {
-    this.setState({postBeingEdited: null})
+    this.setState({postBeingEdited: null, type: 'Post'})
   }
 
   changePostComponent(type, postId) {
@@ -84,7 +84,7 @@ class App extends React.Component {
 
   render () {
     return (
-      <div className="container-fluid row">
+      <div className="container-fluid row"> 
         <div className="col-sm-7">
           {this.state.parentId !== 'main' 
           ? this.state.postBeingEdited === null ? <button className="btn btn-danger w-100 mt-3" onClick={this.goToMain}>Main Page</button> : ''  

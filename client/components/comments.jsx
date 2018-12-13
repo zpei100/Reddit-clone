@@ -14,7 +14,7 @@ class Comments extends React.Component {
 
   this.editPost = this.editPost.bind(this);
   }
-
+ 
   editPost (title, message, postId) {
     this.setState({edit: !this.state.edit}, () => {
       console.log('this props: ', this.props)
@@ -22,11 +22,14 @@ class Comments extends React.Component {
         $('.edit').css('display','none');
         $('#title').val(title);
         $('#message').val(message);
+
         this.props.changePostComponent('Save Changes', postId);
       } else {
         $('.edit').css('display','default');
         $('#title').val('');
         $('#message').val('');
+        const height = 0;
+        this.props.setHeight(height);
         this.props.changePostComponent('Post', null);
       }
     })
@@ -61,14 +64,17 @@ class Comments extends React.Component {
                     ? <div>
                         <button
                           className={`btn btn-outline-${this.state.edit === false ? 'info' : 'danger'} mx-2 ${this.state.edit === false ? 'edit' : 'cancel'}`}
-                          onClick={() => {this.editPost(data.post.title, data.post.message, data.post.postId)}}
+                          onClick={(e) => {this.editPost(data.post.title, data.post.message, data.post.postId)}}
                         >
                           {this.state.edit === false ? 'Edit' : 'Cancel'}
                         </button>
                         
                         <Mutation mutation={DELETE_POST}>
                           {(deletePost) => (
-                              <button className="btn btn-outline-danger mx-2" onClick={() => {
+                              <button 
+                              className="btn btn-outline-danger mx-2"
+                              onClick={() => {
+                                if(postBeingEdited !== null) return alert('Please finish editing');
                                 if(data.post.parentId === 'main') goToMain();
                                 deletePost({variables: {postId: data.post.postId}
                               })}}>Delete</button>
@@ -87,6 +93,7 @@ class Comments extends React.Component {
                       <button
                         className="btn btn-outline-primary mx-2"
                         onClick={function(e) {
+                          if (postBeingEdited !== null ) return alert('Please finish editing');
                           const postId = data.post.postId;
                           comment(postId);
                           $(e.target).hover();
