@@ -1,6 +1,7 @@
 import React from 'react';
 import { Mutation } from 'react-apollo';
 import { ADD_USER } from '../queries/queries.js';
+import validator from 'validator';
 import $ from 'jquery';
 
 export default function({updateUsername}) {
@@ -13,6 +14,10 @@ export default function({updateUsername}) {
             onSubmit={e => {
               e.preventDefault()
               const username = $('#username').val();
+              if (!validator.isAlphanumeric(username)) {
+                $('#username').val('')
+                return alert('Please use only numbers and letters without spaces')
+              };
               addUser({ variables: { username } });
               updateUsername(username);
             }}

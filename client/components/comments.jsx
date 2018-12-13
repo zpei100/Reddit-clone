@@ -15,8 +15,6 @@ const Comments = function({ parentId, comment, username, setHeight, updateMaster
             <div className="container border border-dark my-3 w-100">
               <div className="text-secondary mt-3 d-flex justify-content-between">
                 <div><a href="#" onClick={() => {
-                  console.log(updateMaster);
-                  console.log('type of updatemaster:', typeof updateMaster)
                   updateMaster(data.post.user.username);
                 }}>{data.post.user.username}</a></div>
                 {username === '' ? (
@@ -52,16 +50,3 @@ const Comments = function({ parentId, comment, username, setHeight, updateMaster
 };
 
 export default Comments;
-
-// const something = <ul>
-// {data.posts.map(post => (
-//   <div
-//     className="container border border-dark my-3"
-//     key={post.postId}
-//   >
-//     <div className="text-secondary mt-3">{post.user.username}</div>
-//     <hr></hr>
-//     <h3 className="font-weight-bold mt-0">{post.title}</h3>
-//   </div>
-// ))}
-// </ul>
