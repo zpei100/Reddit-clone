@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run wepback && nodemon server/index.js",
+    "start": "npm run webpack && nodemon server/index.js",
     "webpack": "webpack -p -w"
   },
   "keywords": [],
