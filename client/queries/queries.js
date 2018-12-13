@@ -68,6 +68,15 @@ export const USER_POSTS = gql`
   }
 `
 
+export const UPDATE_POST = gql`
+  mutation UpdatePost($title: String!, $message: String!, $postId: String!) {
+    updatePost(title: $title, message: $message, postId: $postId) {
+      title
+      message
+    }
+  }
+`
+
 export const ADD_POST = gql`
   mutation AddPost($title: String!, $message: String!, $user: String!, $parent: String!) {
     addPost(title: $title, message: $message, user: $user, parent: $parent) {

@@ -8,7 +8,6 @@ export default function({username, comment, updateMaster, updateParentId}) {
       {({ loading, error, data }) => {
         if (loading) return 'Loading...';
         if (error) return `Error! ${error.message}`;
-        if (data) console.log(data);
         return (
           <ul className="m-auto">
             {data.user.posts.map(post => (
