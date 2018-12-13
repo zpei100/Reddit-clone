@@ -38,13 +38,15 @@ class Comments extends React.Component {
   }
 
   render () {
-    const { parentId, comment, username, setHeight, updateMaster, goToMain } = this.props;
+    const { parentId, comment, username, setHeight, updateMaster, goToMain, postBeingEdited, changePostComponent } = this.props;
 
     return (
       <Query query={GET_POST} variables={{ postId: parentId }} pollInterval={500}>
         {({ loading, error, data }) => {
           if (loading) return 'Loading...';
           if (error) return `Error! ${error.message}`;
+          if (data.post) {
+            console.log('data is : ', data)
           return (
             <div style={{width: '100%'}}>
               <div className="container border border-dark my-3 w-100">
@@ -54,7 +56,7 @@ class Comments extends React.Component {
                   }}>{data.post.user.username}</a>
                   </div>
 
-                  <div>
+                  <div className="row">
                     {username === data.post.user.username 
                     ? <div>
                         <button
@@ -66,8 +68,8 @@ class Comments extends React.Component {
                         
                         <Mutation mutation={DELETE_POST}>
                           {(deletePost) => (
-                              <button className="btn btn-danger mx-2" onClick={() => {
-                                goToMain()
+                              <button className="btn btn-outline-danger mx-2" onClick={() => {
+                                if(data.post.parentId === 'main') goToMain();
                                 deletePost({variables: {postId: data.post.postId}
                               })}}>Delete</button>
                             )
@@ -102,14 +104,26 @@ class Comments extends React.Component {
                 <hr />
                 <p className={data.post.postId}>{data.post.message}</p>
                 <ul style={{ width: '100%' }}>
-                  {data.post.comments.map(post => (
-                    <Comments key={post.postId} updateMaster={updateMaster} parentId={post.postId} username={username} comment={comment} setHeight={setHeight}/>
-                  ))}
+                  {data.post.comments.length > 0 ? data.post.comments.map(post => (
+                    <Comments 
+                    key={post.postId} 
+                    updateMaster={updateMaster} 
+                    parentId={post.postId} 
+                    username={username} 
+                    comment={comment} 
+                    setHeight={setHeight}
+                    changePostComponent={changePostComponent}
+                    goToMain={goToMain}
+                    postBeingEdited={postBeingEdited}
+                  />
+                  )) : ''}
                 </ul>
               </div>
             </div>
           );
-        }}
+        } else {
+          return ''
+        }}}
       </Query>
     )
   };
