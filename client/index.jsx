@@ -87,7 +87,7 @@ class App extends React.Component {
       <div className="container-fluid row">
         <div className="col-sm-7">
           {this.state.parentId !== 'main' 
-          ? <button className="btn btn-danger w-100 mt-3" onClick={this.goToMain}>Main Page</button> 
+          ? this.state.postBeingEdited === null ? <button className="btn btn-danger w-100 mt-3" onClick={this.goToMain}>Main Page</button> : ''  
           : ''
           }
 
