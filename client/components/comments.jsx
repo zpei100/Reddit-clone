@@ -1,6 +1,7 @@
 import React from 'react';
 import { Query } from 'react-apollo';
-import { GET_POST } from '../queries/queries.js';
+import { GET_POST, DELETE_POST } from '../queries/queries.js';
+import { Mutation } from 'react-apollo';
 import $ from 'jquery';
 
 class Comments extends React.Component {
@@ -37,7 +38,7 @@ class Comments extends React.Component {
   }
 
   render () {
-    const { parentId, comment, username, setHeight, updateMaster } = this.props;
+    const { parentId, comment, username, setHeight, updateMaster, goToMain } = this.props;
 
     return (
       <Query query={GET_POST} variables={{ postId: parentId }} pollInterval={500}>
@@ -55,13 +56,25 @@ class Comments extends React.Component {
 
                   <div>
                     {username === data.post.user.username 
-                    ? <button
-                        className={`btn btn-outline-${this.state.edit === false ? 'info' : 'danger'} mx-2 ${this.state.edit === false ? 'edit' : 'cancel'}`}
-                        onClick={() => {this.editPost(data.post.title, data.post.message, data.post.postId)}}
-                      >
-                        {this.state.edit === false ? 'Edit' : 'Cancel'}
-                      </button>
-                      : ''}
+                    ? <div>
+                        <button
+                          className={`btn btn-outline-${this.state.edit === false ? 'info' : 'danger'} mx-2 ${this.state.edit === false ? 'edit' : 'cancel'}`}
+                          onClick={() => {this.editPost(data.post.title, data.post.message, data.post.postId)}}
+                        >
+                          {this.state.edit === false ? 'Edit' : 'Cancel'}
+                        </button>
+                        
+                        <Mutation mutation={DELETE_POST}>
+                          {(deletePost) => (
+                              <button className="btn btn-danger mx-2" onClick={() => {
+                                goToMain()
+                                deletePost({variables: {postId: data.post.postId}
+                              })}}>Delete</button>
+                            )
+                          }
+                        </Mutation>
+                      </div>
+                    : ''}
 
 
 
@@ -90,7 +103,7 @@ class Comments extends React.Component {
                 <p className={data.post.postId}>{data.post.message}</p>
                 <ul style={{ width: '100%' }}>
                   {data.post.comments.map(post => (
-                    <Comments updateMaster={updateMaster} parentId={post.postId} username={username} comment={comment} setHeight={setHeight}/>
+                    <Comments key={post.postId} updateMaster={updateMaster} parentId={post.postId} username={username} comment={comment} setHeight={setHeight}/>
                   ))}
                 </ul>
               </div>

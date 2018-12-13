@@ -84,6 +84,15 @@ const Mutation = new GraphQLObjectType({
       resolve: function(P, {title, message, postId}) {
         return Posts.findOneAndUpdate({postId}, { $set: {title, message, postId}}, {new: true})
       }
+    },
+    deletePost: {
+      type: post,
+      args: {
+        postId: { type: GraphQLString }
+      },
+      resolve: function(P, {postId}) {
+        return Posts.findOneAndRemove({postId})
+      }
     }
   }
 })

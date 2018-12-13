@@ -107,6 +107,7 @@ class App extends React.Component {
               comment={this.comment} 
               username={this.state.username}
               changePostComponent={this.changePostComponent}
+              goToMain={this.goToMain}
               postBeingEdited={this.state.postBeingEdited} />
             </div>
           }
