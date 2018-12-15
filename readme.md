@@ -1,3 +1,5 @@
+A simple clone of a forum application that allows user posting/commenting.
+
 To Start:
 - npm install
 - npm start
@@ -5,8 +7,15 @@ To Start:
 Application is on localhost:4000
 Graphiql is on localhost:4000/graphical
 
-This is a simple clone of a forum post / comment / reply application.
+=============================================================
 
-Create a user, and you can make a post, make comments other posts and comments, delete posts, edit them, and see the effects in real time.
+You can:
+  Create a user.
+  Make a post.
+  Make comments on posts.
+  Make comments on comments.
+  Filter posts by user.
+  Edit and delete posts.
 
-The username is tracked by window.location.search, and thus makes the app very vulnerable.
+Note: 
+  The username used to create post data is tracked by window.location.search, and thus makes the app very vulnerable.
