@@ -66,8 +66,7 @@ class App extends React.Component {
   };
 
   comment(postId) {
-    this.setState({replyTo: postId}, () => {
-    })
+    this.setState({replyTo: postId})
   };
 
   setHeight(height) {
@@ -96,7 +95,11 @@ class App extends React.Component {
           : this.state.parentId === 'main' 
 
 
-          ? <Posts parentId={this.state.parentId} comment={this.comment} updateParentId={this.updateParentId} updateMaster={this.updateMaster} />
+          ? <Posts 
+              parentId={this.state.parentId} 
+              comment={this.comment} 
+              updateParentId={this.updateParentId} 
+              updateMaster={this.updateMaster} />
           
           
           : <div>
@@ -105,7 +108,7 @@ class App extends React.Component {
               setHeight={this.setHeight} 
               parentId={this.state.parentId} 
               comment={this.comment} 
-              username={this.state.username}
+              activeUser={this.state.username}
               changePostComponent={this.changePostComponent}
               goToMain={this.goToMain}
               postBeingEdited={this.state.postBeingEdited} />

@@ -41,30 +41,29 @@ class Comments extends React.Component {
   }
 
   render () {
-    const { parentId, comment, username, setHeight, updateMaster, goToMain, postBeingEdited, changePostComponent } = this.props;
+    const { parentId, comment, activeUser, setHeight, updateMaster, goToMain, postBeingEdited, changePostComponent } = this.props;
 
     return (
       <Query query={GET_POST} variables={{ postId: parentId }} pollInterval={500}>
-        {({ loading, error, data }) => {
+        {({ loading, error, data: { post: { title, message, postId, message, user: {username}}}}) => {
           if (loading) return 'Loading...';
           if (error) return `Error! ${error.message}`;
-          if (data.post) {
-            console.log('data is : ', data)
+         
           return (
             <div style={{width: '100%'}}>
               <div className="container border border-dark my-3 w-100">
                 <div className="text-secondary mt-3 d-flex justify-content-between">
                   <div><a href="#" onClick={() => {
-                    updateMaster(data.post.user.username);
-                  }}>{data.post.user.username}</a>
+                    updateMaster(username);
+                  }}>{username}</a>
                   </div>
 
                   <div className="row">
-                    {username === data.post.user.username 
+                    {activeUser === username 
                     ? <div>
                         <button
                           className={`btn btn-outline-${this.state.edit === false ? 'info' : 'danger'} mx-2 ${this.state.edit === false ? 'edit' : 'cancel'}`}
-                          onClick={(e) => {this.editPost(data.post.title, data.post.message, data.post.postId)}}
+                          onClick={(e) => {this.editPost(title, message, postId)}}
                         >
                           {this.state.edit === false ? 'Edit' : 'Cancel'}
                         </button>
@@ -75,8 +74,8 @@ class Comments extends React.Component {
                               className="btn btn-outline-danger mx-2"
                               onClick={() => {
                                 if(postBeingEdited !== null) return alert('Please finish editing');
-                                if(data.post.parentId === 'main') goToMain();
-                                deletePost({variables: {postId: data.post.postId}
+                                if(parentId === 'main') goToMain();
+                                deletePost({variables: {postId: postId}
                               })}}>Delete</button>
                             )
                           }
