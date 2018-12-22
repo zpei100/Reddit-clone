@@ -102,8 +102,7 @@ class App extends React.Component {
               updateMaster={this.updateMaster} />
           
           
-          : <div>
-              <Comments 
+          : <Comments 
               updateMaster={this.updateMaster} 
               setHeight={this.setHeight} 
               parentId={this.state.parentId} 
@@ -112,7 +111,6 @@ class App extends React.Component {
               changePostComponent={this.changePostComponent}
               goToMain={this.goToMain}
               postBeingEdited={this.state.postBeingEdited} />
-            </div>
           }
 
         </div>
