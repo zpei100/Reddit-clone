@@ -1,8 +1,9 @@
-$background: #BDC8CE;
+$background: #E8E8E8;
 $postText: black;
 $appWidth: 1200px;
-$postBackground:white;
+$postBackground: white;
 $postIconHeight: 60px;
+$postPopularityBackGround: #CEC288;
 
 #main {
   display: grid;
@@ -49,7 +50,7 @@ $postIconHeight: 60px;
     };
 
     .post-popularity {
-      background-color: grey!important;
+      background-color: $postPopularityBackGround!important;
       width: 45px;
     }
   };
