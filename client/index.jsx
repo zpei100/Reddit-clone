@@ -37,7 +37,7 @@ class App extends React.Component {
   this.comment = this.comment.bind(this);
   this.setHeight = this.setHeight.bind(this);
   this.goToMain = this.goToMain.bind(this);
-  this.updateMaster = this.updateMaster.bind(this);
+  this.handleUsernameClick = this.handleUsernameClick.bind(this);
   this.exitEdit = this.exitEdit.bind(this);
   };
 
@@ -77,7 +77,7 @@ class App extends React.Component {
     this.setState({parentId: 'main', replyTo: 'main', height: 0, master: 'main'})
   };
 
-  updateMaster(username) {
+  handleUsernameClick(username) {
     this.setState({master: username, parentId: 'master'});
   }
 
@@ -91,7 +91,7 @@ class App extends React.Component {
           }
 
           {this.state.master !== 'main'
-          ? <UserPosts username={this.state.master} comment={this.comment} updateParentId={this.updateParentId} updateMaster={this.updateMaster} /> 
+          ? <UserPosts username={this.state.master} comment={this.comment} updateParentId={this.updateParentId} handleUsernameClick={this.handleUsernameClick} /> 
           : this.state.parentId === 'main' 
 
 
@@ -99,11 +99,11 @@ class App extends React.Component {
               parentId={this.state.parentId} 
               comment={this.comment} 
               updateParentId={this.updateParentId} 
-              updateMaster={this.updateMaster} />
+              handleUsernameClick={this.handleUsernameClick} />
           
           
           : <Comments 
-              updateMaster={this.updateMaster} 
+              handleUsernameClick={this.handleUsernameClick} 
               setHeight={this.setHeight} 
               parentId={this.state.parentId} 
               comment={this.comment} 

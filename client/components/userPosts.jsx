@@ -2,7 +2,7 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import { USER_POSTS } from '../queries/queries.js';
 
-export default function({username, comment, updateMaster, updateParentId}) {
+export default function({username, comment, handleUsernameClick, updateParentId}) {
   return (
     <Query query={USER_POSTS} variables={{username}} pollInterval={500}>
       {({ loading, error, data }) => {
@@ -16,7 +16,7 @@ export default function({username, comment, updateMaster, updateParentId}) {
                 key={post.postId}
               >
                 <div className="text-secondary mt-3"><a href="#" onClick={() => {
-                  updateMaster(post.user.username);
+                  handleUsernameClick(post.user.username);
                 }}>{post.user.username}</a></div>
                 <hr></hr>
                 <h3 className="font-weight-bold mt-0"><a href="#" onClick={() => {

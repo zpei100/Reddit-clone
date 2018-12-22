@@ -4,16 +4,17 @@ import { GET_POST, DELETE_POST } from '../queries/queries.js';
 import { Mutation } from 'react-apollo';
 import $ from 'jquery';
 
-import { Username, Title, Popularity } from './custom-tags/post-components.jsx';
+import { Username, Title, Popularity, PostWrapper, PostBody, Message, PostHeader } from './custom-tags/post-components.jsx';
 
-class Comments extends React.Component {
+export default class Comments extends React.Component {
 	constructor() {
 		super();
-		this.state = {
-			edit: false
-		};
-
+		this.state = {edit: false};
 		this.editPost = this.editPost.bind(this);
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		if (prevProps.postBeingEdited !== null && this.state.edit) this.setState({ edit: false });
 	}
 
 	editPost(title, message, postId) {
@@ -36,72 +37,59 @@ class Comments extends React.Component {
 		});
 	}
 
-	componentDidUpdate(prevProps, prevState) {
-		if (prevProps.postBeingEdited !== null && this.state.edit) this.setState({ edit: false });
-	}
-
 	render() {
-		const {
-			parentId,
-			comment,
-			activeUser,
-			setHeight,
-			updateMaster,
-			goToMain,
-			postBeingEdited,
-			changePostComponent
-		} = this.props;
-
 		return (
-			<Query query={GET_POST} variables={{ postId: parentId }} pollInterval={500}>
+			<Query query={GET_POST} variables={{ postId: this.props.parentId }} pollInterval={500}>
 				{({ loading, data }) => {
 					if (loading) return <h1>Loading...</h1>;
-					const { post: { title, message, postId, comments, user: { username } } } = data;
-        
-					return (
-						<div className="post d-flex rounded border-dark my-3 p-0">
-							<Popularity />
-							<div className="post-body mx-3">
-								<div className="d-flex justify-content-between">
-									<Username {...{ username, handleUsernameClick: updateMaster }} />
-									<Buttons {...{username, title, message, postId, edit: this.state.edit, editPost:this.editPost, activeUser, postBeingEdited, comment, setHeight}}/>
-								</div>
-								<Title title={title} />
-								<p className={postId}>{message}</p>
-								<hr />
-									{comments.length > 0 
-                  ? comments.map(({postId}) => <Comments {...{updateMaster, parentId: postId, username, comment, setHeight, changePostComponent, goToMain, postBeingEdited}} />) : ''}
-							</div>
-						</div>
-					);
+					if (data.post) {
+
+						const {comments, user: { username }} = data.post;
+
+						//Declare props for the components below to use
+						//Passing down data from post, extracted username, passed down edit state and editPost method
+						const props = Object.assign(data.post, this.props, {username}, {edit: this.state.edit, editPost: this.editPost})
+					
+						return (
+							<PostWrapper>
+								<Popularity />
+								<PostBody>
+									<PostHeader>
+										<Username {...props} />
+										<Buttons {...props}/>
+									</PostHeader>
+									<Title {...props} />
+									<Message {...props}/>
+									<hr />
+										{comments.length > 0 
+										? comments.map(({postId}) => <Comments {...props} parentId={postId} />) : ''}
+								</PostBody>
+							</PostWrapper>
+						);
+					}
 				}}
 			</Query>
 		);
 	}
 }
 
-export default Comments;
-
-const Buttons = ({ username, title, message, postId, editPost, edit, activeUser, postBeingEdited, comment, setHeight }) => {
+const Buttons = ({ username, title, message, postId, editPost, edit, activeUser, postBeingEdited, comment, setHeight, parentId }) => {
 	return (
-		<div className="row">
+		<div className="row mt-3">
 			{activeUser === username ? (
-				<div>
+					<React.Fragment>
 					<button
-						className={`btn btn-outline-${edit === false ? 'info' : 'danger'} mx-2 ${edit === false
-							? 'edit'
-							: 'cancel'}`}
-						onClick={(e) => {
-							editPost(title, message, postId);
-						}}
-					>
+						className={`btn btn-sm h-75 btn-outline-${edit === false ? 'info' : 'danger'} mx-2 ${edit === false
+							? 'Edit'
+							: 'Cancel'}`}
+						onClick={() => {editPost(title, message, postId);}}>
 						{edit === false ? 'Edit' : 'Cancel'}
 					</button>
 
 					<Mutation mutation={DELETE_POST}>
 						{(deletePost) => (
 							<button
-								className="btn btn-outline-danger mx-2"
+								className="btn btn-sm h-75 btn-outline-danger mx-2"
 								onClick={() => {
 									if (postBeingEdited !== null) return alert('Please finish editing');
 									if (parentId === 'main') goToMain();
@@ -110,9 +98,11 @@ const Buttons = ({ username, title, message, postId, editPost, edit, activeUser,
 							>
 								Delete
 							</button>
+					
 						)}
 					</Mutation>
-				</div>
+					</React.Fragment> 
+				
 			) : (
 				''
 			)}
@@ -121,7 +111,7 @@ const Buttons = ({ username, title, message, postId, editPost, edit, activeUser,
 				''
 			) : (
 				<button
-					className="btn btn-outline-primary mx-2"
+					className="btn btn-sm h-75 btn-outline-primary mx-2"
 					onClick={function(e) {
 						if (postBeingEdited !== null) return alert('Please finish editing');
 						comment(postId);
