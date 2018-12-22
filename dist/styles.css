@@ -1,14 +1,50 @@
 #main {
   display: grid;
   grid-template-columns: 5fr 1fr;
-  grid-template-areas: 
-  "allPosts addPost"
-};
+  grid-template-areas: "allPosts addPost";
+}
 
 #allPosts {
-  grid-area: allPosts
-};
+  grid-area: allPosts;
+}
+
+#main-container {
+  width: 1500px;
+}
 
 .addPost {
-  grid-area: addPost
+  grid-area: addPost;
 }
+
+#posts .post {
+  background-color: white;
+}
+#posts a {
+  color: black !important;
+}
+#posts .post-icons {
+  height: 60px;
+}
+#posts .post {
+  overflow: hidden;
+}
+#posts .post hr {
+  margin-top: 4px;
+}
+#posts .post .post-body {
+  width: 100%;
+}
+#posts .post .post-popularity {
+  background-color: grey !important;
+  width: 45px;
+}
+
+a {
+  color: black !important;
+}
+
+body {
+  background-color: #BDC8CE !important;
+}
+
+/*# sourceMappingURL=styles.css.map */

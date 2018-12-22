@@ -7,7 +7,8 @@
     "start": "npm run webpack && node server/index.js",
     "webpack": "webpack -p",
     "webpack-dev": "webpack -p -w",
-    "server": "nodemon server/index.js"
+    "server": "nodemon server/index.js",
+    "sass": "sass --watch client/styles.scss dist/styles.css"
   },
   "keywords": [],
   "author": "",
@@ -34,6 +35,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "webpack": "^4.27.1",
-    "webpack-cli": "^3.1.2"
+    "webpack-cli": "^3.1.2",
+    "sass": "^1.15.2"
   }
 }

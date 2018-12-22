@@ -1,0 +1,64 @@
+$background: #BDC8CE;
+$postText: black;
+$appWidth: 1200px;
+$postBackground:white;
+$postIconHeight: 60px;
+
+#main {
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+  grid-template-areas: 
+  "allPosts addPost"
+};
+
+#allPosts {
+  grid-area: allPosts
+};
+
+#main-container {
+  width: 1500px;
+}
+
+.addPost {
+  grid-area: addPost
+}
+
+#posts {
+  .post {
+    background-color: $postBackground;
+  };
+
+  a {
+    color: $postText!important
+  };
+
+  .post-icons {
+    height: $postIconHeight;
+  };
+
+  .post {
+
+    overflow: hidden;
+
+    hr {
+      margin-top: 4px;
+    }
+
+    .post-body {
+      width: 100%;
+    };
+
+    .post-popularity {
+      background-color: grey!important;
+      width: 45px;
+    }
+  };
+}
+
+a {
+  color: $postText!important;
+}
+
+body {
+  background-color: $background!important
+}

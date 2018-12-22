@@ -84,8 +84,8 @@ class App extends React.Component {
 
   render () {
     return (
-      <div className="container-fluid row"> 
-        <div className="col-sm-7">
+      <div className="container-fluid row m-auto" id="main-container"> 
+        <div className="col-sm-8" id="posts">
           {this.state.parentId !== 'main' 
           ? this.state.postBeingEdited === null ? <button className="btn btn-danger w-100 mt-3" onClick={this.goToMain}>Main Page</button> : ''  
           : ''
@@ -114,7 +114,7 @@ class App extends React.Component {
 
         </div>
 
-        <div className="col-sm-5" style={{top: this.state.height}}>
+        <div className="col-sm-4" style={{top: this.state.height}}>
           {this.state.username === '' 
           ? <AddUser updateUsername={this.updateUsername} /> 
           : <AddPost postBeingEdited={this.state.postBeingEdited} type={this.state.type} username={this.state.username} parentId={this.state.replyTo} exitEdit={this.exitEdit} />}
