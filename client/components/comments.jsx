@@ -44,6 +44,9 @@ export default class Comments extends React.Component {
 					if (loading) return <h1>Loading...</h1>;
 					if (data.post) {
 
+						console.log('postId of the current post is: ', data.post.postId);
+						console.log('length of comments: ',  data.post.comments.length)
+
 						const {comments, user: { username }} = data.post;
 
 						//Declare props for the components below to use
@@ -62,7 +65,7 @@ export default class Comments extends React.Component {
 									<Message {...props}/>
 									<hr />
 										{comments.length > 0 
-										? comments.map(({postId}) => <Comments {...props} parentId={postId} />) : ''}
+										? comments.map(({postId}) => <Comments  parentId={postId} />) : ''}
 								</PostBody>
 							</PostWrapper>
 						);
