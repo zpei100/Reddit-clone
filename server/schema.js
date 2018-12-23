@@ -17,7 +17,7 @@ const user = new GraphQLObjectType({
     posts: { 
       type: new GraphQLList(post),
       resolve: function(parent) {
-        return Posts.find({user: parent.username})
+        return Posts.find({user: parent.username}).sort({updatedAt: -1})
       }  
     }
   })
@@ -44,7 +44,7 @@ const post = new GraphQLObjectType({
     comments: {
       type: new GraphQLList(post),
       resolve: function(parent, args) {
-        return Posts.find({parent: parent.postId});
+        return Posts.find({parent: parent.postId}).sort({updatedAt: -1});
       }
     }
   })
@@ -104,7 +104,7 @@ const RootQuery = new GraphQLObjectType({
     users: {
       type: new GraphQLList(user),
       resolve: () => {
-        return Users.find({});
+        return Users.find({}).sort({createdAt: -1});
       }
     },
     posts: {
@@ -114,8 +114,8 @@ const RootQuery = new GraphQLObjectType({
         parentId: { type: GraphQLString }
       },
       resolve: function(parent, args) {
-        if (args.username) return Posts.find({username: args.username});
-        if (args.parentId) return Posts.find({parent: args.parentId});
+        if (args.username) return Posts.find({username: args.username}).sort({updatedAt: -1});
+        if (args.parentId) return Posts.find({parent: args.parentId}).sort({updatedAt: -1});
         return Posts.find({});
       }
     },
