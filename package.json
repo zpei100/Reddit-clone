@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run webpack && node server/index.js",
-    "webpack": "webpack -p",
+    "start": "wepback -p && sass client/styles.scss dist/styles.css && node server/index.js",
     "webpack-dev": "webpack -p -w",
     "server": "nodemon server/index.js",
     "sass": "sass --watch client/styles.scss dist/styles.css"

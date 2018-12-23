@@ -46,7 +46,6 @@ body {
   };
 
   .post {
-
     overflow: hidden;
 
     hr {
@@ -59,7 +58,7 @@ body {
 
     .post-popularity {
       background-color: $postPopularityBackGround!important;
-      width: 45px;
+      width: 10px;
     }
   };
 }
