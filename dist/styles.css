@@ -1,3 +1,11 @@
+a {
+  color: black !important;
+}
+
+body {
+  background-color: #E8E8E8 !important;
+}
+
 #main {
   display: grid;
   grid-template-columns: 5fr 1fr;
@@ -12,7 +20,7 @@
   width: 1500px;
 }
 
-.addPost {
+#addPost {
   grid-area: addPost;
 }
 
@@ -37,14 +45,6 @@
 #posts .post .post-popularity {
   background-color: #CEC288 !important;
   width: 45px;
-}
-
-a {
-  color: black !important;
-}
-
-body {
-  background-color: #E8E8E8 !important;
 }
 
 /*# sourceMappingURL=styles.css.map */

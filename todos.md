@@ -1,0 +1,2 @@
+- [ ] Sort new posts in order they were created - add time stamp
+- [ ] Styling

@@ -38,7 +38,7 @@ export default function({username, parentId, type, postBeingEdited, exitEdit}) {
   }
 
   return (
-    <Mutation mutation={type === 'Post' ? ADD_POST : UPDATE_POST} className="addPost">
+    <Mutation mutation={type === 'Post' ? ADD_POST : UPDATE_POST} id="addPost">
       {(handlePost, {loading, error}) => {
 
         if (error) console.log(error.toString());

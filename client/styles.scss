@@ -5,6 +5,14 @@ $postBackground: white;
 $postIconHeight: 60px;
 $postPopularityBackGround: #CEC288;
 
+a {
+  color: $postText!important;
+}
+
+body {
+  background-color: $background!important
+}
+
 #main {
   display: grid;
   grid-template-columns: 5fr 1fr;
@@ -20,7 +28,7 @@ $postPopularityBackGround: #CEC288;
   width: 1500px;
 }
 
-.addPost {
+#addPost {
   grid-area: addPost
 }
 
@@ -56,10 +64,3 @@ $postPopularityBackGround: #CEC288;
   };
 }
 
-a {
-  color: $postText!important;
-}
-
-body {
-  background-color: $background!important
-}

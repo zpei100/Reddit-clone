@@ -19,7 +19,6 @@ export default class Comments extends React.Component {
 
 	editPost(title, message, postId) {
 		this.setState({ edit: !this.state.edit }, () => {
-			console.log('this props: ', this.props);
 			if (this.state.edit) {
 				$('.edit').css('display', 'none');
 				$('#title').val(title);
@@ -40,19 +39,19 @@ export default class Comments extends React.Component {
 	render() {
 		return (
 			<Query query={GET_POST} variables={{ postId: this.props.parentId }} pollInterval={500}>
-				{({ loading, data }) => {
+				{({ loading, error, data }) => {
 					if (loading) return <h1>Loading...</h1>;
+				
 					if (data.post) {
-
-						console.log('postId of the current post is: ', data.post.postId);
-						console.log('length of comments: ',  data.post.comments.length)
-
 						const {comments, user: { username }} = data.post;
 
 						//Declare props for the components below to use
 						//Passing down data from post, extracted username, passed down edit state and editPost method
-						const props = Object.assign(data.post, this.props, {username}, {edit: this.state.edit, editPost: this.editPost})
-					
+						const props = {...this.props, ...data.post, ...this.state, editPost: this.editPost, username};
+
+						console.log('this props: ', this.props)
+						console.log(props)
+		
 						return (
 							<PostWrapper>
 								<Popularity />
@@ -65,18 +64,18 @@ export default class Comments extends React.Component {
 									<Message {...props}/>
 									<hr />
 										{comments.length > 0 
-										? comments.map(({postId}) => <Comments  parentId={postId} />) : ''}
+										? comments.map(({postId}) => <Comments key={postId} {...this.props} parentId={postId} />) : ''}
 								</PostBody>
 							</PostWrapper>
 						);
-					}
+					} else return ''
 				}}
 			</Query>
 		);
 	}
 }
 
-const Buttons = ({ username, title, message, postId, editPost, edit, activeUser, postBeingEdited, comment, setHeight, parentId }) => {
+const Buttons = ({ username, title, parent, message, postId, editPost, edit, activeUser, postBeingEdited, comment, setHeight,  goToMain }) => {
 	return (
 		<div className="row mt-3">
 			{activeUser === username ? (
@@ -95,13 +94,12 @@ const Buttons = ({ username, title, message, postId, editPost, edit, activeUser,
 								className="btn btn-sm h-75 btn-outline-danger mx-2"
 								onClick={() => {
 									if (postBeingEdited !== null) return alert('Please finish editing');
-									if (parentId === 'main') goToMain();
+									if (!parent) goToMain();
 									deletePost({ variables: { postId: postId } });
 								}}
 							>
 								Delete
 							</button>
-					
 						)}
 					</Mutation>
 					</React.Fragment> 

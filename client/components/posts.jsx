@@ -10,6 +10,7 @@ export default function({ parentId, handleUsernameClick, updateParentId, comment
         if (loading) return <h1>Loading...</h1>;
         return data.posts.map(({ user: { username }, postId, title }) => (
           <Post
+          key={postId}
             handleUsernameClick={handleUsernameClick}
             username={username}
             postId={postId}
