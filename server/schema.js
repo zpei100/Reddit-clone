@@ -68,6 +68,15 @@ const Mutation = new GraphQLObjectType({
         });
       }
     },
+    login: {
+      type: user,
+      args: {
+        username: { type: GraphQLString }
+      },
+      resolve: function(parent, args) {
+        return Users.findOne({username: args.username});
+      }
+    },
     addPost: {
       type: post,
       args: {

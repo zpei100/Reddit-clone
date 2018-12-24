@@ -24,6 +24,14 @@ body {
   grid-area: addPost;
 }
 
+#addUser {
+  background-color: #00AAAF;
+}
+
+#username-input-label {
+  color: black;
+}
+
 #posts .post {
   background-color: white;
 }

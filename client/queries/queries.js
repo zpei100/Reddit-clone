@@ -50,6 +50,15 @@ export const ADD_USER = gql`
     }
   }
 `
+
+export const LOGIN = gql`
+  mutation Login($username: String!) {
+    login(username: $username) {
+      username
+    }
+  }
+`
+
 export const USER_POSTS = gql`
   query UserPosts($username: String!) {
     user(username: $username) {

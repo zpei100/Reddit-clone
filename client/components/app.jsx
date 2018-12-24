@@ -5,6 +5,7 @@ import AddUser from './addUser.jsx';
 import AddPost from './addPost.jsx';
 import Comments from './comments.jsx';
 import UserPosts from './userPosts.jsx';
+import Login from './login.jsx';
 
 export default class App extends React.Component {
 
@@ -12,6 +13,7 @@ export default class App extends React.Component {
     super();
     this.state = {
       username: '',
+      login: false,
       parentId: 'main',
       replyTo: 'main',
       height: 0,
@@ -55,11 +57,15 @@ export default class App extends React.Component {
 
   handleUsernameClick = (username) => {
     this.setState({master: username, parentId: 'master'});
+  };
+
+  switchLogin = () => {
+    this.setState({login: !this.state.login})
   }
 
   render () {
     return (
-      <div className="container-fluid row m-auto" id="main-container"> 
+      <div className="container-fluid d-flex m-auto" id="main-container"> 
         <div className="col-sm-8" id="posts">
           {this.state.parentId !== 'main' 
           ? this.state.postBeingEdited === null ? <button className="btn btn-danger w-100 mt-3" onClick={this.goToMain}>Main Page</button> : ''  
@@ -91,12 +97,11 @@ export default class App extends React.Component {
 
         </div>
 
-        <div className="col-sm-4" style={{top: this.state.height}}>
+        
           {this.state.username === '' 
-          ? <AddUser updateUsername={this.updateUsername} /> 
-          : <AddPost postBeingEdited={this.state.postBeingEdited} type={this.state.type} username={this.state.username} parentId={this.state.replyTo} exitEdit={this.exitEdit} />}
-        </div>
-
+          ? this.state.login ? <Login updateUsername={this.updateUsername} height={this.state.height} switchLogin={this.switchLogin} />
+          : <AddUser updateUsername={this.updateUsername} height={this.state.height} switchLogin={this.switchLogin}/> 
+          : <AddPost postBeingEdited={this.state.postBeingEdited} type={this.state.type} username={this.state.username} parentId={this.state.replyTo} exitEdit={this.exitEdit} height={this.state.height} />}
       </div>
     )
   }

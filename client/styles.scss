@@ -4,6 +4,7 @@ $appWidth: 1200px;
 $postBackground: white;
 $postIconHeight: 60px;
 $postPopularityBackGround: #CEC288;
+$addUser-background-color: #00AAAF;
 
 a {
   color: $postText!important;
@@ -30,6 +31,14 @@ body {
 
 #addPost {
   grid-area: addPost
+}
+
+#addUser {
+  background-color:$addUser-background-color;
+}
+
+#username-input-label {
+  color: black;
 }
 
 #posts {
