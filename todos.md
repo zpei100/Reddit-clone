@@ -3,6 +3,6 @@
   - [ ] Style make post 
   - [x] All comments, even nested ones, should all align on the right
 - [x] User auth
-- [ ] Create switch user option
+- [ ] Create switch user and login with existing username option
 - [ ] Specifically: style user sign up - switch options
 - [x] Fix user conflict issue
