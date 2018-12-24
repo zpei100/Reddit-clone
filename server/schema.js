@@ -58,8 +58,14 @@ const Mutation = new GraphQLObjectType({
       args: { 
         username: { type: GraphQLString }
       },
-      resolve: function(parent, args) {
-        new Users({username: args.username}).save();
+      resolve: function(parent, args, {req}) {
+        return new Users({username: args.username}).save().then(user => {
+          req.session.username = user.username;
+          req.session.save();
+          return user;
+        }).catch(e => {
+          if (e.code === 11000) return null;
+        });
       }
     },
     addPost: {

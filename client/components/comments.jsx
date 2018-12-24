@@ -49,9 +49,6 @@ export default class Comments extends React.Component {
 						//Passing down data from post, extracted username, passed down edit state and editPost method
 						const props = {...this.props, ...data.post, ...this.state, editPost: this.editPost, username};
 
-						console.log('this props: ', this.props)
-						console.log(props)
-		
 						return (
 							<PostWrapper>
 								<Popularity />
@@ -77,7 +74,7 @@ export default class Comments extends React.Component {
 
 const Buttons = ({ username, title, parent, message, postId, editPost, edit, activeUser, postBeingEdited, comment, setHeight,  goToMain }) => {
 	return (
-		<div className="row mt-3">
+		<div className="row mt-3 mr-3">
 			{activeUser === username ? (
 					<React.Fragment>
 					<button
