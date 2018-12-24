@@ -15,7 +15,7 @@ export const Post = (props) => {
 
 export const PostWrapper = ({children}) => <div className="d-flex rounded border border-secondary border-top-0 border-bottom-0 my-3 p-0 post">{children}</div>
 
-export const PostBody = ({children}) => <div className="post-body mx-3">{children}</div>
+export const PostBody = ({children}) => <div className="post-body ml-3">{children}</div>
 
 export const PostHeader = ({children}) => <div className="d-flex justify-content-between">{children}</div>
 

@@ -1,2 +1,8 @@
 - [x] Sort new posts in order they were created - add time stamp
-- [ ] Styling
+- [ ] Styling:
+  - [ ] Style make post 
+  - [x] All comments, even nested ones, should all align on the right
+- [x] User auth
+- [ ] Create switch user option
+- [ ] Specifically: style user sign up - switch options
+- [x] Fix user conflict issue

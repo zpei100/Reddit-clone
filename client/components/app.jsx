@@ -1,5 +1,6 @@
 
 import React from 'react';
+import Axios from 'axios'
 import Posts from './posts.jsx';
 import AddUser from './addUser.jsx';
 import AddPost from './addPost.jsx';
@@ -11,6 +12,9 @@ export default class App extends React.Component {
   constructor () {
     super();
     this.state = {
+
+      loggedIn: false,
+
       username: '',
       parentId: 'main',
       replyTo: 'main',
@@ -21,6 +25,10 @@ export default class App extends React.Component {
     };
   };
 
+  componentDidMount = () => {
+    this.setState({username: window.username});
+  };
+
   exitEdit = () => {
     this.setState({postBeingEdited: null, type: 'Post'})
   }
@@ -29,15 +37,8 @@ export default class App extends React.Component {
     this.setState({type, postBeingEdited: postId})
   };
 
-  componentDidMount = () => {
-    this.setState({username: window.location.search.slice(1)}, () => {
-    });
-  };
-
   updateUsername = (username) => {
-    this.setState({username}, () => {
-      window.location.search += username;
-    })
+    this.setState({username})
   };
 
   updateParentId = (parentId) => {
