@@ -4,7 +4,7 @@ $appWidth: 1200px;
 $postBackground: white;
 $postIconHeight: 60px;
 $postPopularityBackGround: #CEC288;
-$addUser-background-color: #00AAAF;
+$signup-background-color: #00AAAF;
 
 html {
   padding-bottom: 700px;
@@ -35,11 +35,11 @@ body {
 
 #addPost {
   grid-area: addPost;
-  background-color: $addUser-background-color;
+  background-color: $signup-background-color;
 }
 
-#addUser {
-  background-color:$addUser-background-color;
+#signup {
+  background-color:$signup-background-color;
 }
 
 #username-input-label {
@@ -47,7 +47,7 @@ body {
 }
 
 #main-page-button {
-  background-color: $addUser-background-color;
+  background-color: $signup-background-color;
 }
 
 .form-inline {

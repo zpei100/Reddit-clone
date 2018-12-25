@@ -9,12 +9,11 @@ export default class Edit extends React.Component {
     this.state = {
       message: message,
       title: title
-  
     }
   }
 
   componentDidUpdate = prevProps => {
-    if (!prevProps.editing && this.props.editing) this.setState({message: this.props.message})
+    if (!prevProps.editing && this.props.editing) this.setState({message: this.props.message, title: this.props.title})
   }
 
   handleTextAreaChange = message => {

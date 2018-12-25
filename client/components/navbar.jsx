@@ -1,8 +1,7 @@
 import React from 'react';
-import { Mutation } from 'react-apollo';
 import { LOGIN, ADD_USER } from '../queries/queries.js';
 import Login from './login.jsx';
-import AddUser from './addUser.jsx';
+import Signup from './signup.jsx';
 
 export default (props) => {
   const {login, activeUser, goToMain, handleLogout} = props;
@@ -13,7 +12,7 @@ export default (props) => {
       {!activeUser 
         ? login 
           ? <Login {...props} /> 
-          : <AddUser {...props}/> 
+          : <Signup {...props}/> 
         : <button className='btn btn-dark' onClick={handleLogout}>Logout</button>}
     </nav>
   )

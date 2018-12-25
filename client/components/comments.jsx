@@ -1,10 +1,10 @@
 import React from 'react';
 import { Query } from 'react-apollo';
-import { GET_POST, DELETE_POST } from '../queries/queries.js';
+import { GET_POST } from '../queries/queries.js';
 import Reply from './reply.jsx';
 import Edit from './edit.jsx';
 
-import { Username, Title, Popularity, PostWrapper, PostBody, Message, PostHeader } from './custom-tags/post-components.jsx';
+import { Username, Title, Popularity, PostWrapper, PostBody, Message, PostHeader, Buttons } from './custom-tags/post-components.jsx';
 
 export default class Comments extends React.Component {
 	constructor() {
@@ -13,41 +13,38 @@ export default class Comments extends React.Component {
 			showReplyBox: false,
 			editing: false
 		};
-	}
+	};
 
 	toggleShowReplyBox = () => {
 		this.setState({showReplyBox: !this.state.showReplyBox})
-	}
+	};
 
 	cancelEdit = () => {
 		this.setState({editing: false})
-	}
+	};
 
 	toggleEditing = () => {
 		this.setState({editing: true, showReplyBox: false})
-		
-		// this.props.changePostComponent('Save Changes', postId);
-	} 
+	}; 
 	
 	render() {
-		return (
-			<Query query={GET_POST} variables={{ postId: this.props.parentId }} pollInterval={500}>
-				{({ loading, error, data }) => {
+		const {handleUsernameClick, parentId, activeUser, goToMain} = this.props;
+		const {showReplyBox, editing} = this.state;
+		const toggleShowReplyBox = this.toggleShowReplyBox;
+		const cancelEdit = this.cancelEdit;
+		const toggleEditing = this.toggleEditing;
+	
+		return ( 
+			<Query query={GET_POST} variables={{ postId: parentId }} pollInterval={500}>
+				{({ loading, data }) => {
 					if (loading) return '';
-				
 					if (data.post) {
-						//username in this file refers to the username for the post
-						//active user is the logged in user
-						const {comments, user: {username}, message, title, postId, parent} = data.post;
-						const {activeUser} = this.props;
-						const {showReplyBox, editing} = this.state;
+						const {user: {username}, comments, message, title, postId, parent} = data.post;
 					
-
-						//Declare props for the components below to use
-						//Passing down data from post, extracted username, passed down edit state and editPost method
-						const props = {...this.props, ...data.post, toggleEditing: this.toggleEditing, editPost: this.editPost, toggleShowReplyBox: this.toggleShowReplyBox, username};
-
-						const editProps = {cancelEdit: this.cancelEdit, goToMain: this.props.goToMain, toggleEditing: this.toggleEditing, activeUser, editing, message, title, postId, parent}
+						const editProps = {cancelEdit, goToMain, activeUser, editing, message, title, postId, parent};
+						const buttonsProps = { username, activeUser, toggleShowReplyBox, toggleEditing, parent };
+						const usernameProps = {username, handleUsernameClick};
+						const titleProps = { postId, title };
 
 						return (
 							<PostWrapper>
@@ -56,19 +53,19 @@ export default class Comments extends React.Component {
 									{editing && activeUser ? <Edit {...editProps} />
 									: <React.Fragment>
 										<PostHeader>
-											<Username {...props} />
-											<Buttons {...props} />
+											<Username {...usernameProps} />
+											<Buttons {...buttonsProps} />
 										</PostHeader>
-										<Title {...props} />
-										<Message {...props}/>
+										<Title {...titleProps} />
+										<Message message={message}/>
 										<hr className="mr-3"/>
 										<Reply 
 											replyTo={postId} 
 											type={parent ? 'Reply' : 'Comment'} 
 											activeUser={activeUser}
 											showReplyBox={!parent || showReplyBox}
-											toggleShowReplyBox={this.toggleShowReplyBox} 
-											cancelEdit={this.cancelEdit}
+											toggleShowReplyBox={toggleShowReplyBox} 
+											cancelEdit={cancelEdit}
 											message={message}
 										/>
 									</React.Fragment>}
@@ -83,26 +80,3 @@ export default class Comments extends React.Component {
 		);
 	}
 }
-
-const Button = ({color, handler, text}) => {
-	return (
-		<button className={`btn mx-2 btn-outline-${color}`} onClick={handler}>{text}</button>
-	)
-}
-
-const Buttons = ({ username, activeUser, toggleShowReplyBox, toggleEditing, parent }) => {
-
-	return (
-		<div className="row mt-3 mr-3">
-			{activeUser && activeUser === username 
-			? <Button color='info' text='Edit' handler={toggleEditing} />
-			: ''}
-			
-			{activeUser 
-			? !parent 
-				? ''
-				: <Button color='primary' text='Reply' handler={toggleShowReplyBox}/>
-			: ''}
-		</div>
-	);
-};

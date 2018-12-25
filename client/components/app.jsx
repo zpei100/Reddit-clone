@@ -5,23 +5,22 @@ import AddPost from './addPost.jsx';
 import Comments from './comments.jsx';
 import UserPosts from './userPosts.jsx';
 import Nav from './navbar.jsx';
-
 import Axios from 'axios';
 
 export default class App extends React.Component {
 
+  //if parentId = 'main', you all see all primary main posts
+  //if parentId = 'some uuid', you ll that post and all of its sub posts / comments
+  //if filteredByUser = 'zen', you ll see all posts by zen
+  //login toggles login and signup view
+
   constructor () {
-    super();
+    super()
     this.state = {
       activeUser: '',
       login: false,
       parentId: 'main',
-      replyTo: 'main',
-      height: 0,
-      master: 'main',
-      type: 'Post',
-      postBeingEdited: null,
-
+      filteredByUser: null,
     };
   };
 
@@ -29,83 +28,69 @@ export default class App extends React.Component {
     this.setState({activeUser: window.activeUser});
   };
 
-  exitEdit = () => {
-    this.setState({postBeingEdited: null, type: 'Post'})
-  }
-
-  changePostComponent = (type, postId) => {
-    this.setState({type, postBeingEdited: postId})
-  };
-
   updateActiveUser = activeUser => {
     this.setState({activeUser})
   };
 
-  updateParentId = (parentId) => {
-    this.setState({parentId, master: 'main'})
+  handleTitleClick = parentId => {
+    this.setState({parentId, filteredByUser: null})
   };
 
   goToMain = () => {
-    this.setState({parentId: 'main', replyTo: 'main', height: 0, master: 'main'})
+    this.setState({parentId: 'main', filteredByUser: null})
   };
 
   handleUsernameClick = username => {
-    this.setState({master: username, parentId: 'master'});
+    this.setState({filteredByUser: username});
   };
 
-  switchLogin = () => {
+  toggleLogin = () => {
     this.setState({login: !this.state.login})
-  }
+  };
   
   handleLogout = () => {
-    Axios.get('/logout').then(() => {this.setState({activeUser: ''})});
-  }
+    Axios.get('/logout').then(() => {this.setState({activeUser: ''})}).catch(() => alert('there was an error logging out. Please try again later'));
+  };
 
   render () {
+    const {activeUser, login, filteredByUser, parentId} = this.state;
+
     return (
       <div className="container-fluid d-flex m-auto" id="main-container"> 
         <div className="col-sm-8" id="posts">
 
-          <Nav activeUser={this.state.activeUser} updateActiveUser={this.updateActiveUser} switchLogin={this.switchLogin} login={this.state.login} goToMain={this.goToMain} parentId={this.state.parentId} handleLogout={this.handleLogout}/>
+          <Nav 
+            activeUser={activeUser} 
+            updateActiveUser={this.updateActiveUser} 
+            toggleLogin={this.toggleLogin} 
+            login={login} 
+            goToMain={this.goToMain} 
+            handleLogout={this.handleLogout}
+          />
 
-          {/* {this.state.parentId !== 'main' 
-          ? this.state.parentId === 'main' ? ''
-          : <button className="btn rounded border border-dark mt-3" id="main-page-button" onClick={this.goToMain}>Main Page</button>  
-          : ''
-          } */}
-
-          {this.state.master !== 'main'
-          ? <UserPosts username={this.state.master} comment={this.comment} updateParentId={this.updateParentId} handleUsernameClick={this.handleUsernameClick} /> 
-          : this.state.parentId === 'main' 
-
-
-          ? <Posts 
-              parentId={this.state.parentId} 
-         
-              updateParentId={this.updateParentId} 
-              handleUsernameClick={this.handleUsernameClick} />
-          
-          
-          : <Comments 
-              handleUsernameClick={this.handleUsernameClick} 
-              setHeight={this.setHeight} 
-              parentId={this.state.parentId} 
-              
-              activeUser={this.state.activeUser}
-              changePostComponent={this.changePostComponent}
-              goToMain={this.goToMain}
-              postBeingEdited={this.state.postBeingEdited} />
+          {filteredByUser
+            ? <UserPosts 
+                username={filteredByUser} 
+                comment={this.comment} 
+                handleTitleClick={this.handleTitleClick} 
+                handleUsernameClick={this.handleUsernameClick} 
+              /> 
+            : parentId === 'main' 
+              ? <Posts 
+                  parentId={parentId} 
+                  handleTitleClick={this.handleTitleClick} 
+                  handleUsernameClick={this.handleUsernameClick} 
+                />
+              : <Comments 
+                  handleUsernameClick={this.handleUsernameClick} 
+                  parentId={parentId} 
+                  activeUser={activeUser}
+                  goToMain={this.goToMain}
+                />
           }
 
         </div>
-
-          {this.state.activeUser && this.state.parentId === 'main' ? <AddPost postBeingEdited={this.state.postBeingEdited} type={this.state.type} username={this.state.activeUser} parentId={this.state.replyTo} exitEdit={this.exitEdit} height={this.state.height} /> : ''}
-
-        
-          {/* {this.state.username === '' 
-          ? this.state.login ? <Login updateUsername={this.updateUsername} height={this.state.height} switchLogin={this.switchLogin} />
-          : <AddUser updateUsername={this.updateUsername} height={this.state.height} switchLogin={this.switchLogin}/> 
-          : this.state.parentId === 'main' ? <AddPost postBeingEdited={this.state.postBeingEdited} type={this.state.type} username={this.state.username} parentId={this.state.replyTo} exitEdit={this.exitEdit} height={this.state.height} /> : ''} */}
+        {activeUser && parentId === 'main' ? <AddPost username={activeUser}/> : ''}
       </div>
     )
   }

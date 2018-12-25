@@ -43,7 +43,7 @@ const post = new GraphQLObjectType({
     },
     comments: {
       type: new GraphQLList(post),
-      resolve: function(parent, args) {
+      resolve: function(parent) {
         return Posts.find({parent: parent.postId}).sort({updatedAt: -1});
       }
     }

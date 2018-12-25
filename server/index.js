@@ -5,13 +5,11 @@ const path = require('path');
 const session = require('express-session');
 const MemoryStore = require('memorystore')(session);
 const bodyParser = require('body-parser');
-
-const template = require('./template')
+const template = require('./template');
 
 const app = express();
 
-app.use(bodyParser.json())
-
+app.use(bodyParser.json());
 app.use(session({
   secret: 'secret',
   resave: false,
@@ -27,7 +25,7 @@ app.use(session({
 app.get('/logout', (req, res) => {
   req.session.destroy();
   res.sendStatus(200);
-})
+});
 
 app.get('/', (req, res) => {
   res.send(template({activeUser: req.session.username || ''}))
@@ -41,6 +39,8 @@ app.use('/graphql', (req, res) => graphqlHTTP({
   context: {req}
 })(req, res));
 
-app.listen(process.env.PORT || 4000, () => {
-  console.log('app is up on port 4000')
+const port = process.env.PORT || 4000;
+
+app.listen(port, () => {
+  console.log(`app is up on port ${port}`)
 });
