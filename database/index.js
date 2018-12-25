@@ -1,5 +1,7 @@
 const db = require('mongoose');
-const {username, password} = process.env || require('../config.js');
+
+const username = process.env.MONGO_USER || require('../config.js').username;
+const password = process.env.MONGO_PASSWORD || require('../config.js').password;
 
 db.connect(`mongodb://${username}:${password}@ds157712.mlab.com:57712/reddis-clone`, {useNewUrlParser: true, useCreateIndex: true});
 
