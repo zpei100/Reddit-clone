@@ -2,3 +2,4 @@
 dist/*.js
 *.map
 todos.md
+config.js

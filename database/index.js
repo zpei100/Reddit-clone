@@ -1,6 +1,7 @@
 const db = require('mongoose');
+const {username, password} = process.env || require('../config.js');
 
-db.connect('mongodb://zen:password2@ds157712.mlab.com:57712/reddis-clone', {useNewUrlParser: true, useCreateIndex: true});
+db.connect(`mongodb://${username}:${password}@ds157712.mlab.com:57712/reddis-clone`, {useNewUrlParser: true, useCreateIndex: true});
 
 var Schema = db.Schema;
 
