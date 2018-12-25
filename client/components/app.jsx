@@ -22,7 +22,6 @@ export default class App extends React.Component {
       type: 'Post',
       postBeingEdited: null,
 
-      channel: 'main'
     };
   };
 

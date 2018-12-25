@@ -10,6 +10,7 @@ export default ({updateActiveUser, switchLogin}) => {
       update={(cache, {data}) => {
         if (!data.addUser) {
           $('#username-signup').val('');
+          alert('Username already taken!')
           $('#username-input-label').text('Username already taken!');
           $('#username-input-label').addClass('text-warning');
         } else {
@@ -32,10 +33,8 @@ export default ({updateActiveUser, switchLogin}) => {
             >
          
               <input className="form-control w-75" name="username" type="text" placeholder="Enter a new username" id="username-signup"/>
-              
                 <button className="btn rounded btn-dark btn-sm ml-3" type="submit">Sign Up</button>
                 <button className="btn btn-warning btn-sm ml-3" onClick={switchLogin}>Existing User?</button>
-             
             </form>
           
       )}}

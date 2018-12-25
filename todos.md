@@ -9,3 +9,5 @@
 - [x] Update github with new picture and readme
 - [x] Update config file to support production environment
 - [ ] Clean up code
+- [x] Prompt when username already exists during sign up
+- [x] Fix issues when reply and editing box still show up / retain information when user logs in and out

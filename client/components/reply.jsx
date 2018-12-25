@@ -11,6 +11,10 @@ export default class Reply extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.activeUser && !this.props.activeUser) this.setState({message: ''})
+  }
+
   handleTextAreaChange = (message) => {
     this.setState({message})
   }
@@ -25,7 +29,7 @@ export default class Reply extends React.Component {
     const {replyTo, type, activeUser, showReplyBox} = this.props;
     //Type can be either reply or comment. username is the active user
     return (
-      showReplyBox 
+      showReplyBox && activeUser 
       ? <Mutation mutation={ADD_POST}>
         {addPost => {
           return (

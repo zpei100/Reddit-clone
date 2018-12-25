@@ -24,7 +24,7 @@ export default class Comments extends React.Component {
 	}
 
 	toggleEditing = () => {
-		this.setState({editing: true})
+		this.setState({editing: true, showReplyBox: false})
 		
 		// this.props.changePostComponent('Save Changes', postId);
 	} 
@@ -53,7 +53,7 @@ export default class Comments extends React.Component {
 							<PostWrapper>
 								<Popularity />
 								<PostBody>
-									{editing ? <Edit {...editProps} />
+									{editing && activeUser ? <Edit {...editProps} />
 									: <React.Fragment>
 										<PostHeader>
 											<Username {...props} />
