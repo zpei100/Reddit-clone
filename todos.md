@@ -6,6 +6,6 @@
 - [x] Create switch user and login with existing username option
 - [x] Specifically: style user sign up - switch options
 - [x] Fix user conflict issue
-- [ ] Update github with new picture and readme
-- [ ] Update config file to support production environment
+- [x] Update github with new picture and readme
+- [x] Update config file to support production environment
 - [ ] Clean up code
