@@ -13,13 +13,13 @@ export const Post = (props) => {
 	);
 };
 
-export const PostWrapper = ({children}) => <div className="d-flex rounded border-left border-secondary border-top-0 border-bottom-0 my-3 p-0 post">{children}</div>
+export const PostWrapper = ({children}) => <div className="d-flex rounded border-left border-secondary border-top-0 border-bottom-0 my-2 p-0 post">{children}</div>
 
 export const PostBody = ({children}) => <div className="post-body ml-3">{children}</div>
 
 export const PostHeader = ({children}) => <div className="d-flex justify-content-between">{children}</div>
 
-export const Message = ({message, postId}) => <p className={postId}>{message}</p>
+export const Message = ({message, postId}) => <p className="message mt-3">{message}</p>
 
 export const Popularity = () => <div className="post-popularity" />;
 

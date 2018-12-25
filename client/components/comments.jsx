@@ -1,65 +1,77 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 import { GET_POST, DELETE_POST } from '../queries/queries.js';
-import { Mutation } from 'react-apollo';
-import $ from 'jquery';
+import Reply from './reply.jsx';
+import Edit from './edit.jsx';
 
 import { Username, Title, Popularity, PostWrapper, PostBody, Message, PostHeader } from './custom-tags/post-components.jsx';
 
 export default class Comments extends React.Component {
 	constructor() {
 		super();
-		this.state = {edit: false};
-		this.editPost = this.editPost.bind(this);
+		this.state = {
+			showReplyBox: false,
+			editing: false
+		};
 	}
 
-	componentDidUpdate(prevProps, prevState) {
-		if (prevProps.postBeingEdited !== null && this.state.edit) this.setState({ edit: false });
+	toggleShowReplyBox = () => {
+		this.setState({showReplyBox: !this.state.showReplyBox})
 	}
 
-	editPost(title, message, postId) {
-		this.setState({ edit: !this.state.edit }, () => {
-			if (this.state.edit) {
-				$('.edit').css('display', 'none');
-				$('#title').val(title);
-				$('#message').val(message);
-
-				this.props.changePostComponent('Save Changes', postId);
-			} else {
-				$('.edit').css('display', 'default');
-				$('#title').val('');
-				$('#message').val('');
-				const height = 0;
-				this.props.setHeight(height);
-				this.props.changePostComponent('Post', null);
-			}
-		});
+	cancelEdit = () => {
+		this.setState({editing: false})
 	}
 
+	toggleEditing = () => {
+		this.setState({editing: true})
+		
+		// this.props.changePostComponent('Save Changes', postId);
+	} 
+	
 	render() {
 		return (
 			<Query query={GET_POST} variables={{ postId: this.props.parentId }} pollInterval={500}>
 				{({ loading, error, data }) => {
-					if (loading) return <h1>Loading...</h1>;
+					if (loading) return '';
 				
 					if (data.post) {
-						const {comments, user: { username }} = data.post;
+						//username in this file refers to the username for the post
+						//active user is the logged in user
+						const {comments, user: {username}, message, title, postId, parent} = data.post;
+						const {activeUser} = this.props;
+						const {showReplyBox, editing} = this.state;
+					
 
 						//Declare props for the components below to use
 						//Passing down data from post, extracted username, passed down edit state and editPost method
-						const props = {...this.props, ...data.post, ...this.state, editPost: this.editPost, username};
+						const props = {...this.props, ...data.post, toggleEditing: this.toggleEditing, editPost: this.editPost, toggleShowReplyBox: this.toggleShowReplyBox, username};
+
+						const editProps = {cancelEdit: this.cancelEdit, goToMain: this.props.goToMain, toggleEditing: this.toggleEditing, activeUser, editing, message, title, postId, parent}
 
 						return (
 							<PostWrapper>
 								<Popularity />
 								<PostBody>
-									<PostHeader>
-										<Username {...props} />
-										<Buttons {...props}/>
-									</PostHeader>
-									<Title {...props} />
-									<Message {...props}/>
-									<hr />
+									{editing ? <Edit {...editProps} />
+									: <React.Fragment>
+										<PostHeader>
+											<Username {...props} />
+											<Buttons {...props} />
+										</PostHeader>
+										<Title {...props} />
+										<Message {...props}/>
+										<hr className="mr-3"/>
+										<Reply 
+											replyTo={postId} 
+											type={parent ? 'Reply' : 'Comment'} 
+											activeUser={activeUser}
+											showReplyBox={!parent || showReplyBox}
+											toggleShowReplyBox={this.toggleShowReplyBox} 
+											cancelEdit={this.cancelEdit}
+											message={message}
+										/>
+									</React.Fragment>}
 										{comments.length > 0 
 										? comments.map(({postId}) => <Comments key={postId} {...this.props} parentId={postId} />) : ''}
 								</PostBody>
@@ -72,55 +84,25 @@ export default class Comments extends React.Component {
 	}
 }
 
-const Buttons = ({ username, title, parent, message, postId, editPost, edit, activeUser, postBeingEdited, comment, setHeight,  goToMain }) => {
+const Button = ({color, handler, text}) => {
+	return (
+		<button className={`btn mx-2 btn-outline-${color}`} onClick={handler}>{text}</button>
+	)
+}
+
+const Buttons = ({ username, activeUser, toggleShowReplyBox, toggleEditing, parent }) => {
+
 	return (
 		<div className="row mt-3 mr-3">
-			{activeUser === username ? (
-					<React.Fragment>
-					<button
-						className={`btn btn-sm h-75 btn-outline-${edit === false ? 'info' : 'danger'} mx-2 ${edit === false
-							? 'Edit'
-							: 'Cancel'}`}
-						onClick={() => {editPost(title, message, postId);}}>
-						{edit === false ? 'Edit' : 'Cancel'}
-					</button>
-
-					<Mutation mutation={DELETE_POST}>
-						{(deletePost) => (
-							<button
-								className="btn btn-sm h-75 btn-outline-danger mx-2"
-								onClick={() => {
-									if (postBeingEdited !== null) return alert('Please finish editing');
-									if (!parent) goToMain();
-									deletePost({ variables: { postId: postId } });
-								}}
-							>
-								Delete
-							</button>
-						)}
-					</Mutation>
-					</React.Fragment> 
-				
-			) : (
-				''
-			)}
-
-			{username === '' ? (
-				''
-			) : (
-				<button
-					className="btn btn-sm h-75 btn-outline-primary mx-2"
-					onClick={function(e) {
-						if (postBeingEdited !== null) return alert('Please finish editing');
-						comment(postId);
-						$(e.target).hover();
-						const height = e.target.offsetTop - 18;
-						setHeight(height);
-					}}
-				>
-					Comment
-				</button>
-			)}
+			{activeUser && activeUser === username 
+			? <Button color='info' text='Edit' handler={toggleEditing} />
+			: ''}
+			
+			{activeUser 
+			? !parent 
+				? ''
+				: <Button color='primary' text='Reply' handler={toggleShowReplyBox}/>
+			: ''}
 		</div>
 	);
 };

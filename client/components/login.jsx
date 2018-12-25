@@ -3,7 +3,8 @@ import { Mutation } from 'react-apollo';
 import { LOGIN } from '../queries/queries.js';
 import $ from 'jquery';
 
-export default function({height, updateUsername, switchLogin}) {
+
+export default ({updateActiveUser, switchLogin}) => {
   return (
     <Mutation 
       mutation={LOGIN} 
@@ -12,17 +13,16 @@ export default function({height, updateUsername, switchLogin}) {
           alert('username does not exist ! try again!!!');
           $('#username-login').val('');
         } else {
-          updateUsername(data.login.username);
+          updateActiveUser(data.login.username);
         }}}>
 
-      {(login, {error}) => {
-        if (error) console.log('there is an error: ', error)
+      {login => {
+
         return (
-          <div className="col-sm-3 mt-3">
+   
          
           <form
-            className="form-group px-3 pb-3 pt-2 mb-3 rounded"
-            style={{top:height}}
+            className="form-inline rounded"
             id="addUser"
             onSubmit={e => {
               e.preventDefault()
@@ -31,14 +31,11 @@ export default function({height, updateUsername, switchLogin}) {
               login({ variables: { username } });
             }}
           >
-            <label id="username-input-label">Enter an existing username</label>
-            <input className="form-control" name="username" type="text" placeholder="Enter a usernname" id="username-login"/>
-            <div className="d-flex justify-content-start mt-3">
-              <button className="btn btn-light btn-sm" type="submit">Login</button>
-              <button className="btn btn-warning btn-sm ml-3" onClick={switchLogin}>New User?</button>
-            </div>
+            <input className="form-control w-75" name="username" type="text" placeholder="Enter an existing usernname" id="username-login"/>
+            <button className="btn rounded btn-dark btn-sm ml-3" type="submit">Login</button>
+            <button className="btn btn-warning btn-sm ml-3" onClick={switchLogin}>New User?</button>
           </form>
-          </div>
+
       )}}
     </Mutation>
   );

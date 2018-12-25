@@ -13,7 +13,7 @@ const template = `
   </head>
   <body>
 
-    <script>window.username='{{username}}'</script>
+    <script>window.activeUser='{{activeUser}}'</script>
 
     <div id="app"></div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

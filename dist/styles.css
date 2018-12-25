@@ -1,3 +1,7 @@
+html {
+  padding-bottom: 700px;
+}
+
 a {
   color: black !important;
 }
@@ -22,6 +26,7 @@ body {
 
 #addPost {
   grid-area: addPost;
+  background-color: #00AAAF;
 }
 
 #addUser {
@@ -29,11 +34,31 @@ body {
 }
 
 #username-input-label {
-  color: black;
+  color: white;
+}
+
+#main-page-button {
+  background-color: #00AAAF;
+}
+
+.form-inline {
+  align-items: normal !important;
+  flex-wrap: nowrap !important;
 }
 
 #posts .post {
   background-color: white;
+}
+#posts .message {
+  white-space: pre-wrap;
+}
+#posts .post-username a {
+  color: lightskyblue;
+  font-size: 14px;
+  font-weight: bold;
+}
+#posts .message {
+  font-size: 16px;
 }
 #posts a {
   color: black !important;

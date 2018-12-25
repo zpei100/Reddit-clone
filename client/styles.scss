@@ -6,6 +6,10 @@ $postIconHeight: 60px;
 $postPopularityBackGround: #CEC288;
 $addUser-background-color: #00AAAF;
 
+html {
+  padding-bottom: 700px;
+}
+
 a {
   color: $postText!important;
 }
@@ -30,7 +34,8 @@ body {
 }
 
 #addPost {
-  grid-area: addPost
+  grid-area: addPost;
+  background-color: $addUser-background-color;
 }
 
 #addUser {
@@ -38,13 +43,38 @@ body {
 }
 
 #username-input-label {
-  color: black;
+  color: white;
+}
+
+#main-page-button {
+  background-color: $addUser-background-color;
+}
+
+.form-inline {
+  align-items: normal!important;
+  flex-wrap: nowrap!important;
 }
 
 #posts {
   .post {
     background-color: $postBackground;
-  };
+  }
+
+  .message {
+    white-space: pre-wrap;
+  }
+
+  .post-username {
+    a {
+      color: lightskyblue;
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }  
+
+  .message {
+    font-size: 16px;
+  }
 
   a {
     color: $postText!important

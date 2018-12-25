@@ -24,8 +24,13 @@ app.use(session({
   }),
 }));
 
+app.get('/logout', (req, res) => {
+  req.session.destroy();
+  res.sendStatus(200);
+})
+
 app.get('/', (req, res) => {
-  res.send(template({username: req.session.username || ''}))
+  res.send(template({activeUser: req.session.username || ''}))
 });
 
 app.use(express.static(path.resolve(__dirname, '../dist')));
