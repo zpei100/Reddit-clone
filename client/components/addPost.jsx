@@ -27,8 +27,8 @@ export default function({username}) {
 
   return (
     <Mutation mutation={ADD_POST}>
-      {handlePost => {
-        return <div className="col-sm-4 mt-3">
+      {handlePost =>  (
+         <div className="col-sm-4 mt-3">
           <form className="form-group px-3 pb-3 pt-2 mb-3 rounded" onSubmit={(e) => handleSubmit(e, handlePost)} id="addPost">
             <div className="text-light">Make a new post</div>
             <input className="form-control my-2" type="text" placeholder="Title" id="title"></input>
@@ -36,8 +36,7 @@ export default function({username}) {
             <button type="submit" className="btn btn-dark my-2">Post</button>
           </form>
         </div>
-        }
-      }
+      )}
     </Mutation>
   );
 }

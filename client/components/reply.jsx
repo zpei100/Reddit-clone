@@ -1,6 +1,6 @@
 import React from 'react';
 import { Mutation } from 'react-apollo';
-import { ADD_POST } from '../queries/queries.js';
+import { ADD_COMMENT } from '../queries/queries.js';
 
 export default class Reply extends React.Component {
 
@@ -29,7 +29,7 @@ export default class Reply extends React.Component {
     //Type can be either reply or comment. username is the active user
     return (
       showReplyBox && activeUser 
-      ? <Mutation mutation={ADD_POST}>
+      ? <Mutation mutation={ADD_COMMENT}>
         {addPost => (
           <form 
             className="form-group px-3 pb-3 pt-2 mb-3 rounded reply" 
@@ -51,7 +51,7 @@ export default class Reply extends React.Component {
             {type === 'Comment' ? '' : <button className="btn btn-outline-danger mx-2" onClick={this.handleCancel}>Cancel</button>}
             <hr className="mt-4 mr-3"/>
           </form>
-        )}}
+        )}
       </Mutation>
       : ''
     );

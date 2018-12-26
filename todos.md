@@ -8,7 +8,7 @@
 - [x] Fix user conflict issue
 - [x] Update github with new picture and readme
 - [x] Update config file to support production environment
-- [ ] Clean up code
+- [x] Clean up code
 - [x] Prompt when username already exists during sign up
 - [x] Fix issues when reply and editing box still show up / retain information when user logs in and out
 - *[ ] Implement a goto main post feature. With a button next to the message, when viewing a list of posts by user*

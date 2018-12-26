@@ -80,7 +80,7 @@ export default class Edit extends React.Component {
             </div>
             <hr className="mt-4 mr-3"/>
           </form>
-        )}}
+        )}
       </Mutation>
     );
   }
