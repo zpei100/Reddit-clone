@@ -21,7 +21,8 @@ body {
 }
 
 #main-container {
-  width: 1500px;
+  width: 65vw;
+  min-width: 768px;
 }
 
 #addPost {
@@ -29,7 +30,7 @@ body {
   background-color: #00AAAF;
 }
 
-#addUser {
+#signup {
   background-color: #00AAAF;
 }
 
